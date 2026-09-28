@@ -1,0 +1,45 @@
+# 本机用户数据和凭证
+/private/
+/config/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa*
+id_ed25519*
+
+# 构建结果、下载工具和研究材料
+/build/
+/research/
+/tools/*
+!/tools/installer/
+**/bin/
+**/obj/
+*.exe
+*.msi
+*.apk
+*.zip
+*.7z
+*.log
+*.pdb
+*.cache
+
+# 诊断、历史对话和旧文件副本
+/logs/*
+!/logs/开发工作日志.md
+/docs/工作计划与对话日志.md
+*.bak
+*.bak-*
+*~
+*.tmp
+*.temp
+
+# IDE
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo

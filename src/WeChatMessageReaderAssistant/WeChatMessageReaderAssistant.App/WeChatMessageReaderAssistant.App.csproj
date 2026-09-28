@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon></ApplicationIcon>
+    <AssemblyName>WeChatMessageReaderAssistant</AssemblyName>
+    <RootNamespace>WeChatMessageReaderAssistant.App</RootNamespace>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <HintPath>D:\WeChatMessageReaderAssistant\tools\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.27\ref\net8.0\Accessibility.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <None Include="Native\ZDSRAPI_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>ZDSRAPI_x64.dll</TargetPath>
+    </None>
+    <None Include="Native\ZDSRAPI.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>ZDSRAPI.ini</TargetPath>
+    </None>
+    <None Include="Native\BoyCtrl-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>BoyCtrl-x64.dll</TargetPath>
+    </None>
+    <None Include="Native\BoyCtrl.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>BoyCtrl.conf</TargetPath>
+    </None>
+    <None Include="Native\byctrl-x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>byctrl-x64.dll</TargetPath>
+    </None>
+    <None Include="Native\byctrl.conf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>byctrl.conf</TargetPath>
+    </None>
+    <None Include="Native\nvdaControllerClient64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>nvdaControllerClient64.dll</TargetPath>
+    </None>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Native\prism.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>prism.dll</TargetPath>
+    </None>
+    <None Include="Native\tolk.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <TargetPath>tolk.dll</TargetPath>
+    </None>
+  </ItemGroup>
+
+</Project>

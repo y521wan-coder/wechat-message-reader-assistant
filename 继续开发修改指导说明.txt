@@ -1,0 +1,373 @@
+﻿请继续处理我电脑里的“微信消息朗读助手”项目。请用中文回复。我是盲人用户，使用争渡、保益、NVDA 等屏幕阅读器，所以所有说明、路径、测试步骤都要具体清楚。软件必须重视无障碍、键盘操作和读屏体验。
+
+一、项目路径
+
+项目根目录：
+D:\WeChatMessageReaderAssistant
+
+源码目录：
+D:\WeChatMessageReaderAssistant\src\WeChatMessageReaderAssistant\WeChatMessageReaderAssistant.App
+
+开发日志：
+D:\WeChatMessageReaderAssistant\logs\开发工作日志.md
+
+继续开发交接说明，也就是本文件：
+D:\WeChatMessageReaderAssistant\继续开发修改指导说明.txt
+
+当前本机实际安装和运行目录：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手
+
+当前本机实际主程序：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\WeChatMessageReaderAssistant.exe
+
+桌面快捷方式：
+C:\Users\apple007\Desktop\微信消息朗读助手.lnk
+
+桌面快捷方式当前目标为：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\WeChatMessageReaderAssistant.exe
+
+当前实际配置文件：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\config\settings.json
+
+当前实际已朗读历史：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\config\wechat-read-history.json
+
+当前实际错误报告：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\错误报告.txt
+
+旧交接说明曾写过的绿色版目录：
+C:\微信消息朗读助手绿色版
+
+本机当前桌面快捷方式和正在运行的助手都使用当前用户安装目录：
+C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手
+
+二、当前最终状态，2026-07-11
+
+当前微信朗读核心功能曾被用户明确确认满意：
+保持现在，完美不改了。
+这次很完美。
+保持现在就完美不改了。
+
+当前最重要的朗读功能：
+朗读方式支持自动检测当前读屏；本机当前正式配置使用 ZDSRAPI，也就是争渡官方接口，失败自动回退 SAPI。
+
+当前正式配置为：
+{
+  "SpeechRate": 10,
+  "SpeechVolume": 100,
+  "SpeechBackend": "ZDSRAPI",
+  "GlobalMonitorHotkey": "Ctrl+Shift+M",
+  "OnlyWeChatNotifications": true,
+  "AutoReadWeChatNotifications": true,
+  "WeChatMonitorIntervalMilliseconds": 500
+}
+
+注意：
+1. 用户当前语速配置是 SpeechRate: 10，不要随便改回 0。
+2. 用户当前朗读方式是 SpeechBackend: ZDSRAPI，不要未经确认改成其它值。
+3. 用户非常满意“全局暂停和恢复微信监听快捷键 Ctrl+Shift+M”，这个功能千万不要动。
+4. 当前已彻底取消“我发出的消息不朗读 / 播放发出音效 / 保持原样”功能，不要再恢复。
+
+三、本次 2026-07-11 最后一次修改内容
+
+用户经过测试后决定彻底砍掉这个功能：
+我发出的消息不朗读、发出音效、导入自定义发出音效、保持原样三选一。
+
+本次已删除：
+1. 主窗口“我发出的消息”组合框。
+2. “导入发出音效”按钮。
+3. 设置文件里的 OutgoingWeChatMessageMode 字段。
+4. 回车键捕获自己即将发送消息的逻辑。
+5. 发出音效播放逻辑。
+6. 默认 send-success.wav 生成逻辑。
+7. 正式安装目录里的旧音效文件：
+   C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\config\send-success.wav
+8. 排查信息中的“我发出的文字消息处理方式”和“发出音效文件”。
+9. 微信诊断输出中面向用户显示的“我发出”和“方向判断”字段。
+
+本次保留且不要改坏：
+1. 微信 UIA 文字消息朗读主流程。
+2. 微信语音转文字朗读。
+3. 上光标查看历史消息时不抢读旧消息。
+4. 连续发送两条相同文字消息时第二条也能朗读。
+5. 单实例保护。
+6. Windows SAPI 保底。
+7. 争渡、保益、NVDA 失败自动回退 SAPI。
+8. 保存设置按钮仍是默认按钮，回车或空格触发后会朗读“设置已保存”。
+9. 通知区域菜单仍不显示语速和音量快捷调整项。
+10. 全局暂停和恢复微信监听快捷键功能，当前为 Ctrl+Shift+M。
+
+本次修改文件：
+D:\WeChatMessageReaderAssistant\src\WeChatMessageReaderAssistant\WeChatMessageReaderAssistant.App\MainWindow.xaml
+D:\WeChatMessageReaderAssistant\src\WeChatMessageReaderAssistant\WeChatMessageReaderAssistant.App\MainWindow.xaml.cs
+D:\WeChatMessageReaderAssistant\src\WeChatMessageReaderAssistant\WeChatMessageReaderAssistant.App\Services\AppSettingsService.cs
+D:\WeChatMessageReaderAssistant\src\WeChatMessageReaderAssistant\WeChatMessageReaderAssistant.App\Services\GlobalKeyboardStopService.cs
+D:\WeChatMessageReaderAssistant\logs\开发工作日志.md
+D:\WeChatMessageReaderAssistant\继续开发修改指导说明.txt
+
+四、当前朗读方式规则
+
+朗读方式组合框第一项是：
+自动检测当前读屏，失败自动回退 SAPI
+
+自动检测逻辑当前规则：
+1. 先看正在运行的读屏主程序。
+2. 保益主程序：BoyPcReader.exe。
+3. NVDA 主程序：nvda.exe。
+4. 争渡主程序：ZDSRMain.exe、ZDSRDaemon.exe、ZDSRMain_x64.exe。
+5. 单独存在 ZDSRService.exe 不能当作“当前正在使用争渡”。
+6. 如果检测到多个读屏主程序，优先使用最新启动的读屏。
+7. 如果启动时间相同，保益优先于 NVDA，NVDA 优先于争渡。
+8. 都不可用时回退 Windows SAPI。
+
+重要修复背景：
+用户使用保益时，电脑里可能同时存在 BoyPcReader.exe 和 ZDSRService.exe。旧逻辑曾误把 ZDSRService.exe 当成争渡正在使用，已修复为只有争渡主程序运行时才自动选择争渡；单独 ZDSRService.exe 不算。
+
+五、当前读屏接口 DLL
+
+正式目录和源码 Native 目录都应包含：
+ZDSRAPI_x64.dll
+ZDSRAPI.ini
+byctrl-x64.dll
+byctrl.conf
+BoyCtrl-x64.dll
+BoyCtrl.conf
+nvdaControllerClient64.dll
+
+保益接口规则：
+1. 优先新版：byctrl-x64.dll、byctrl.conf。
+2. 新版调用：BoyCtrlSpeak2、BoyCtrlStopSpeaking2。
+3. 独立通道名：微信消息朗读助手。
+4. 找不到新版时兼容旧版：BoyCtrl-x64.dll、BoyCtrl.conf。
+5. 旧版继续走：BoyCtrlSpeakEx、BoyCtrlStopSpeakingEx。
+6. 保益失败必须回退 Windows SAPI，不能让微信消息无声。
+
+NVDA 接口：
+nvdaControllerClient64.dll
+
+使用：
+nvdaController_testIfRunning
+nvdaController_speakText
+nvdaController_cancelSpeech
+
+争渡接口：
+ZDSRAPI_x64.dll
+
+不要修改争渡自身语音方案文件，不要写争渡配置。
+
+六、核心功能，不能改坏
+
+软件目标：
+稳定朗读电脑版微信当前好友聊天或群聊窗口里的新文字消息正文。
+
+明确不做：
+1. 不自动回复。
+2. 不识别谁发来的。
+3. 不朗读昵称。
+4. 不区分“我说/对方说”。
+5. 不朗读图片、表情、文件等非文字消息。
+6. 不再做“我发出的消息不朗读或发音效”功能。
+
+主路线：
+UI Automation，也就是 UIA，轮询当前微信聊天窗口。
+
+不要推翻 UIA 主路线。
+Windows 通知监听不作为主路线。
+MSAA / IAccessible 只保留诊断辅助功能。
+
+微信 4.x 关键 UIA 信息：
+聊天窗口类名：mmui::ChatSingleWindow
+消息列表 AutomationId：chat_message_list
+消息列表类名：mmui::RecyclerListView
+文字消息类名：mmui::ChatTextItemView
+输入框 AutomationId：chat_input_field
+消息项 AutomationId：chat_message_list.qt_scrollarea_viewport.chat_bubble_item_view
+
+七、当前稳定功能，不能改坏
+
+1. 启动后自动开始监听微信。
+2. 启动后自动隐藏到通知区域。
+3. 隐藏后仍继续监听和朗读微信新文字消息。
+4. 关闭主窗口或 Alt+F4 只是隐藏到通知区域，不是真正退出。
+5. 真正退出用 Ctrl+Q，或通知区域菜单“退出程序”。
+6. 已加入单实例保护，避免同一条消息朗读两遍。
+7. 微信没打开时不深扫，只等待。
+8. 微信刚启动约 20 秒内不深扫。
+9. UIA 读取放到后台 Task.Run。
+10. 读取失败后自动退避重试。
+11. 第一次成功读取当前可见消息时临时视为旧消息，避免刚打开就重读满屏旧消息。
+12. 支持已朗读历史记录。
+13. 默认微信检测间隔建议 500 毫秒。
+14. 微信语音自动转文字消息可以朗读，不要改坏。
+15. 按上光标查看历史消息时助手不抢读旧消息。
+16. 连续发送两条相同文字消息时第二条也能朗读。
+17. Control 停止朗读时不要因为 SAPI COMException 弹错误报告。
+18. 全局错误报告尽量写到程序所在目录；当前实际路径为：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\错误报告.txt。
+19. 通知区域菜单和主窗口诊断区都有“复制排查信息给开发者”。
+20. 保存设置按钮按回车或空格应保存成功，并朗读“设置已保存”。
+21. 全局暂停和恢复微信监听快捷键 Ctrl+Shift+M 必须保留。
+
+八、快捷键
+
+Alt+R：测试朗读
+Alt+S：停止朗读
+Ctrl：打断当前朗读
+Alt+M：开始或停止监控当前微信聊天
+Alt+W：检测微信窗口和 UIA 诊断
+Alt+B：MSAA / IAccessible 微信诊断扫描
+Alt+E：朗读引擎诊断
+Alt+C：复制排查信息给开发者
+Ctrl+Q：真正退出程序
+Ctrl+Shift+M：全局暂停或恢复微信监听。用户很满意，千万不要动。
+
+通知区域操作：
+1. 按 Windows+B 到通知区域。
+2. 用方向键找到“微信消息朗读助手”。
+3. 按菜单键或 Shift+F10。
+4. 可选择“复制排查信息给开发者”，按回车后会自动复制排查信息到剪贴板。
+5. 然后到聊天窗口按 Ctrl+V 粘贴发给开发者。
+6. 也可选择“打开主窗口和设置”或“退出程序”。
+
+通知区域菜单注意：
+语速和音量快捷调整项已删除，不要恢复。用户觉得这些项多余。
+
+九、当前对外 EXE 和发布规则
+
+当前对外 EXE：
+D:\电脑版微信消息朗读助手.exe
+
+当前对外 EXE 大小：
+196601344 字节
+
+当前对外 EXE SHA256：
+FB75204FE7004FEBD4E090D3080A8D9298A278E4BA283BD9CD60DDD15ADD1348
+
+当前对外 EXE 是 2026-07-11 重新生成的低误报自制安装器。用户曾临时要求先不生成 D 盘安装包，但最后又明确要求这次任务全都做完后恢复在 D 盘生成新的安装包，所以本次已生成 D:\电脑版微信消息朗读助手.exe。
+
+安装器发布规则：
+1. 默认可以更新当前实际安装目录：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手。
+2. 默认可以更新对外 EXE：D:\电脑版微信消息朗读助手.exe，除非用户临时明确说不要生成。
+3. 不要再生成或更新：D:\微信消息朗读助手一键安装.exe。
+4. 不要再生成或更新：D:\微信消息朗读助手安装版.exe。
+5. 不要默认更新：D:\微信消息朗读助手绿色版。
+6. 不要默认生成或更新：D:\微信消息朗读助手绿色版.zip。
+7. 安装方式目前保持现有自制安装器，不改为 Inno Setup 或 InstallShield。
+8. 安装器不要自动执行 Add-MpPreference、Set-MpPreference 或自动添加杀毒排除项。
+
+十、构建和发布命令
+
+构建主程序：
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\build.ps1"
+
+发布绿色版：
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\publish-portable.ps1"
+
+生成对外 EXE：
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\publish-installer.ps1"
+
+publish-installer.ps1 当前只输出：
+D:\电脑版微信消息朗读助手.exe
+
+publish-installer.ps1 不应再生成或复制：
+D:\微信消息朗读助手一键安装.exe
+D:\微信消息朗读助手安装版.exe
+
+标准发布流程：
+1. 修改源码。
+2. 运行 build.ps1。
+3. 运行 publish-portable.ps1。
+4. 结束正在运行的 WeChatMessageReaderAssistant.exe。
+5. 覆盖更新当前实际安装目录：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手。
+6. 保留正式版 config 文件夹、wechat-read-history.json、错误报告.txt、runtime_logs。
+7. 保持正式配置 SpeechRate: 10、SpeechBackend: ZDSRAPI、GlobalMonitorHotkey: Ctrl+Shift+M。
+8. 如需要对外 EXE，更新：D:\电脑版微信消息朗读助手.exe。
+9. 不生成或更新：D:\微信消息朗读助手一键安装.exe。
+10. 不生成或更新：D:\微信消息朗读助手安装版.exe。
+11. 不更新：D:\微信消息朗读助手绿色版、D:\微信消息朗读助手绿色版.zip。
+12. 更新开发日志：D:\WeChatMessageReaderAssistant\logs\开发工作日志.md。
+13. 每次开发任务结束前，更新本交接说明：D:\WeChatMessageReaderAssistant\继续开发修改指导说明.txt。
+14. 为避免中文乱码，开发日志和交接说明都用 UTF-8 with BOM 保存。
+
+十一、本次验证结果，2026-07-11
+
+1. build.ps1 构建成功，0 个警告，0 个错误。
+2. publish-portable.ps1 发布成功，绿色版目录：D:\WeChatMessageReaderAssistant\build\portable。
+3. 已覆盖更新当前实际安装目录：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手。
+4. 当前实际安装目录主 DLL：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\WeChatMessageReaderAssistant.dll。
+5. 当前实际安装目录主 DLL 大小：214016 字节。
+6. 当前实际安装目录主 DLL SHA256：2F67FE8E61E4D85C3E91A8E32C955693883D28898604435216AACCD676CBA568。
+7. 当前只运行 1 个 WeChatMessageReaderAssistant.exe 进程。
+8. 当前运行路径：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手\WeChatMessageReaderAssistant.exe。
+9. 当前 settings.json 已删除 OutgoingWeChatMessageMode。
+10. 当前 settings.json 保留 SpeechRate: 10、SpeechVolume: 100、SpeechBackend: ZDSRAPI、GlobalMonitorHotkey: Ctrl+Shift+M、WeChatMonitorIntervalMilliseconds: 500。
+11. 当前实际已朗读历史文件 config\wechat-read-history.json 仍存在。
+12. 旧发出音效文件 config\send-success.wav 已删除。
+13. publish-installer.ps1 已生成 D:\电脑版微信消息朗读助手.exe。
+14. 新对外 EXE 大小：196601344 字节。
+15. 新对外 EXE SHA256：FB75204FE7004FEBD4E090D3080A8D9298A278E4BA283BD9CD60DDD15ADD1348。
+16. D:\微信消息朗读助手安装版.exe 不存在，本次没有生成。
+17. D:\微信消息朗读助手一键安装.exe 不存在，本次没有生成。
+18. D:\微信消息朗读助手绿色版 和 D:\微信消息朗读助手绿色版.zip 不存在，本次没有生成。
+19. 源码中已无 OutgoingWeChatMessageMode、OutgoingMessageModeComboBox、ImportSendSoundButton、send-success、PendingOutgoing、EnterKeyPressed、“我发出的”、“发出音效”等正式功能引用。
+20. 开发日志和交接说明当前文件头字节为 EF BB BF，也就是 UTF-8 with BOM。
+
+十二、下次开发前必须先读取
+
+继续开发前必须先读取：
+D:\WeChatMessageReaderAssistant\logs\开发工作日志.md
+
+如果用户把本文件内容复制到新会话，也要优先遵守本文件中的最新发布规则和禁止事项。
+
+十三、不要做这些事
+
+不要推翻 UIA 主路线。
+不要重新引入自动回复。
+不要重新引入昵称识别。
+不要重新引入“谁发来的”判断。
+不要重新引入“我发出的消息不朗读、发出音效、自定义音效导入”功能。
+不要破坏微信文字消息朗读。
+不要破坏微信语音转文字朗读。
+不要破坏上光标查看历史不抢读。
+不要破坏连续相同文字消息分别朗读。
+不要破坏单实例保护。
+不要破坏 Windows SAPI 保底。
+不要破坏争渡、保益、NVDA 失败自动回退 SAPI。
+不要破坏 Ctrl+Shift+M 全局暂停和恢复微信监听快捷键。
+不要恢复旧的 NVDA / 争渡 Prism / Tolk 读屏接口作为主要朗读方式。
+不要让正式版再往 D 盘项目 config 目录写配置。
+不要默认更新 D:\微信消息朗读助手绿色版。
+不要默认生成或更新 D:\微信消息朗读助手绿色版.zip。
+不要再生成或更新 D:\微信消息朗读助手一键安装.exe。
+不要再生成或更新 D:\微信消息朗读助手安装版.exe。
+不要在开发或打包时弹无意义黑窗口。
+不要把普通运行提示改回频繁更新“当前状态”，以免保益读屏反复朗读状态。
+不要在安装器里自动执行 Add-MpPreference、Set-MpPreference 或自动添加杀毒排除项。
+
+十四、每次任务结束必须做的收尾
+
+以后每次开发任务结束前，必须检查并更新：
+D:\WeChatMessageReaderAssistant\logs\开发工作日志.md
+D:\WeChatMessageReaderAssistant\继续开发修改指导说明.txt
+
+更新交接说明时至少要写清楚：
+1. 当前日期。
+2. 本次改了哪些文件。
+3. 当前正式版路径。
+4. 当前对外 EXE 路径、大小和 SHA256。
+5. 当前发布规则。
+6. 哪些文件不能生成或更新。
+7. 本次验证结果。
+8. 下次开发前必须注意的事项。
+9. 是否保留 Ctrl+Shift+M 全局暂停和恢复微信监听快捷键。
+10. 是否保持开发日志和交接说明为 UTF-8 with BOM。
+
+十五、当前用户测试重点
+
+1. 打开主窗口，常用设置里不应再出现“我发出的消息”相关设置。
+2. 主窗口不应再出现“导入发出音效”按钮。
+3. 保存设置按钮按回车或空格应生效，并朗读“设置已保存”。
+4. 自己发送微信消息时，软件不再做单独静音或播放发出音效处理。
+5. 对方发来微信文字消息必须继续朗读。
+6. Ctrl+Shift+M 应能全局暂停或恢复微信监听。
+7. 通知区域菜单不应显示语速和音量调整项。
+8. 真正退出仍用 Ctrl+Q 或通知区域菜单“退出程序”。

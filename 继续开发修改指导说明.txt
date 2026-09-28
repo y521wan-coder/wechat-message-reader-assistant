@@ -371,3 +371,35 @@ D:\WeChatMessageReaderAssistant\继续开发修改指导说明.txt
 6. Ctrl+Shift+M 应能全局暂停或恢复微信监听。
 7. 通知区域菜单不应显示语速和音量调整项。
 8. 真正退出仍用 Ctrl+Q 或通知区域菜单“退出程序”。
+十六、2026-09-29 GitHub 公开源码备份与 MIT 许可
+
+本次仅整理并上传源码、文档和 Git 配置；没有修改软件功能，没有执行 build.ps1、publish-portable.ps1 或 publish-installer.ps1，没有更新正式安装目录或对外安装包。
+
+仓库：https://github.com/y521wan-coder/wechat-message-reader-assistant
+可见性：公开。项目自有源码和文档使用根目录 LICENSE 中的 MIT 许可证；第三方读屏 DLL 仍遵循各自条款，见 THIRD_PARTY_NOTICES.md。
+远端名：origin
+SSH 地址：git@github.com:y521wan-coder/wechat-message-reader-assistant.git
+默认分支：main
+首次上传时本地 HEAD：4a2461ca9c2576574ef2eb0e29d7884fbd9cf083
+首次上传时远端 main HEAD：4a2461ca9c2576574ef2eb0e29d7884fbd9cf083
+首次上传提交数：3；被 Git 跟踪文件数：44。
+正式版本标签：未创建。该目录在本次备份前没有 Git 历史，交接资料也没有给出可核实的正式构建源码提交；不能把备份提交误标为 2026-07-11 安装器所对应的源码提交。
+
+凭证扫描：使用 Gitleaks 8.30.1 扫描首次提交前的暂存文件及首次上传的全部 3 次提交历史。每次发现 1 条 generic-api-key 提示，定位于 Services/SpeechService.cs 第 699 行。人工核实它是 PrismBackendSapi 的十六进制后端标识常量，不是 API Key 或其他凭证；未发现真实密钥。交接记录提交后还将复扫全部历史。
+远端安全检查：GitHub 文件树共 44 个文件，未发现 private、真实 config、.env、密钥、安装包、构建缓存、微信诊断日志、数据库、用户已朗读历史或用户聊天数据。src/MVP-PowerShell/config/appsettings.example.json 是不含真实凭证的示例配置。
+Git 忽略：private/、根目录 config/、build/、research/、下载工具、诊断日志、bin/、obj/、安装包、密钥、环境变量文件和临时文件。仅保留安全的开发工作日志；不上传真实配置或已读历史。
+
+仓库专用 Ed25519 上传密钥：
+D:\WeChatMessageReaderAssistant\private\github\wechat_message_reader_assistant_github_ed25519
+同名 .pub 是公钥。私钥 ACL 仅允许当前 Windows 用户 apple007 访问；公钥已登记为该仓库的读写 Deploy Key，不用于其他仓库。上述 private 目录被 .gitignore 排除。
+GitHub 主机密钥文件：D:\WeChatMessageReaderAssistant\private\github\known_hosts。Ed25519 主机密钥来自 GitHub 官方 HTTPS metadata 接口，使用 StrictHostKeyChecking=yes。
+项目 SSH 配置：D:\WeChatMessageReaderAssistant\private\github\ssh_config。本仓库的 Git core.sshCommand 指向该配置。项目移动后应同步更新其中的绝对路径和 Git 配置。
+上传密钥已通过 SSH 身份验证及 git ls-remote；首次推送和远端回读均成功。
+本次下载的 Gitleaks 工具和临时扫描报告在最终复核后清理，不纳入仓库。
+
+本次修改文件：.gitignore、README.md、LICENSE、THIRD_PARTY_NOTICES.md、src/WeChatMessageReaderAssistant/README.md、logs/开发工作日志.md、继续开发修改指导说明.txt。Native 中现有的读屏接口文件作为项目构建依赖保留，但 MIT 许可不覆盖这些第三方文件。
+当前正式版仍位于：C:\Users\apple007\AppData\Local\Programs\微信消息朗读助手。2026-09-29 已确认该目录主 EXE 存在，未更改它。
+2026-07-11 交接记录的对外 EXE 路径为 D:\电脑版微信消息朗读助手.exe，当时大小 196601344 字节、SHA256 为 FB75204FE7004FEBD4E090D3080A8D9298A278E4BA283BD9CD60DDD15ADD1348。2026-09-29 只读检查时该路径未找到文件；以上大小和哈希仅是历史记录，本次没有重新生成或验证该 EXE。
+发布规则和禁止生成、更新的文件继续以本说明第九、十、十三节为准。本次没有发布操作。
+必须保留 Ctrl+Shift+M 全局暂停和恢复微信监听快捷键；本次未修改该功能。开发日志和本交接说明继续用 UTF-8 with BOM 保存。
+下次开发前先读开发日志及本交接说明；不要把当前公开仓库当作用户配置或安装包备份。

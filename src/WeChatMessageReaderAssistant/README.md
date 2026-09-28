@@ -1,47 +1,15 @@
-﻿# WeChatMessageReaderAssistant
+# 微信消息朗读助手 WPF 项目
 
-微信消息朗读与自动回复助手正式 C# 桌面项目。
+这是当前 Windows 桌面应用的源码目录。项目总览、MIT 许可证、第三方接口说明与最新开发交接资料见仓库根目录。
 
-## 当前状态
+应用使用 UI Automation 读取电脑版微信当前聊天窗口的新文字消息，提供争渡、保益、NVDA 和 Windows SAPI 朗读方式。界面支持屏幕阅读器和全键盘操作。当前版本不会自动回复，不识别发言人或昵称，也不朗读图片、文件等非文字内容。
 
-当前版本为第一版 WPF MVP：
-
-- 可以输入文字并测试朗读；
-- 可以测试“语音消息提示”；
-- 支持语速和音量调节；
-- 支持停止朗读；
-- 尚未接入微信通知监听。
-
-## 构建
+项目文件：`WeChatMessageReaderAssistant.sln`。构建命令：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\build.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\build.ps1"
 ```
 
-## 运行
+构建脚本使用本机 `D:\WeChatMessageReaderAssistant\tools\dotnet\dotnet.exe`，该 SDK 未纳入 Git 仓库。在新电脑上构建需先取得 .NET 8 Windows Desktop SDK，并按实际路径调整脚本。
 
-```powershell
-powershell -ExecutionPolicy Bypass -File "D:\WeChatMessageReaderAssistant\scripts\run-app.ps1"
-```
-
-## 项目说明
-
-本项目使用项目内置 .NET SDK：
-
-```text
-D:\WeChatMessageReaderAssistant\tools\dotnet\dotnet.exe
-```
-
-不依赖系统全局 .NET SDK。
-
-## 无障碍说明
-
-本项目面向盲人用户优化，当前窗口已加入：
-
-- 全键盘可操作；
-- 合理 Tab 顺序；
-- 控件无障碍名称和说明；
-- 状态区域 LiveRegion 提示；
-- 快捷键：Alt+R 测试朗读，Alt+V 语音消息提示，Alt+S 停止朗读，Ctrl+Q 退出。
-
-后续新增功能也必须保持无障碍兼容。
+重要操作：`Ctrl+Shift+M` 全局暂停或恢复微信监听，`Ctrl+Q` 真正退出。其余快捷键、用户正式配置及发布约束见根目录《继续开发修改指导说明.txt》。
